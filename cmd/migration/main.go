@@ -315,6 +315,16 @@ func (m *MigrationRunner) RunMigrations(migrationsDir string) error {
 			continue
 		}
 
+		// Before handling subsequent migrations, ensure we have the applied set
+		// This covers the case where we just created the DB and migrations table
+		if len(applied) == 0 {
+			var err error
+			applied, err = m.GetAppliedMigrations(ctx)
+			if err != nil {
+				return fmt.Errorf("failed to get applied migrations: %w", err)
+			}
+		}
+
 		// For subsequent migrations, check if already applied
 		if applied[migration.ID] {
 			m.logger.Debug("Migration already applied", "id", migration.ID, "filename", migration.Filename)
