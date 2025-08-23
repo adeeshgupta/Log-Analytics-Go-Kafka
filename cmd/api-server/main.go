@@ -2,6 +2,13 @@ package main
 
 import (
 	"context"
+	"log/slog"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
 	"github.com/adeesh/log-analytics/internal/config"
 	"github.com/adeesh/log-analytics/internal/constants"
 	"github.com/adeesh/log-analytics/internal/database"
@@ -10,12 +17,6 @@ import (
 	"github.com/adeesh/log-analytics/internal/database/logs"
 	"github.com/adeesh/log-analytics/internal/handlers"
 	"github.com/adeesh/log-analytics/internal/services"
-	"log/slog"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -70,11 +71,6 @@ func main() {
 
 	// Health check endpoint
 	router.GET(constants.APIHealthPath, healthHandler.HealthCheck)
-
-	// Serve dashboard
-	router.GET("/", func(c *gin.Context) {
-		c.File("templates/dashboard.html")
-	})
 
 	// API routes
 	api := router.Group(constants.APIPrefix)
