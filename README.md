@@ -22,20 +22,15 @@ A real-time log processing and monitoring system built with Go, Apache Kafka, an
 The system uses a **hybrid architecture** for optimal development experience:
 
 ### Docker Infrastructure
-- **Kafka** (Confluent 7.4.0) - Message streaming and event processing
-- **Zookeeper** (Confluent 7.4.0) - Kafka coordination and metadata
-- **MySQL** (8.0) - Data storage for logs, alerts, and metrics
+- **Kafka** - Message streaming and event processing
+- **Zookeeper** - Kafka coordination and metadata
+- **MySQL** - Data storage for logs, alerts, and metrics
 - **Kafka UI** - Web interface for Kafka management and monitoring
 
-### Go Services (Host-based)
+### Go Services
 - **Log Collector** - Generates and sends logs to Kafka
 - **Log Processor** - Consumes logs from Kafka and stores in MySQL
 - **API Server** - Provides REST API and dashboard
-
-### Why This Approach?
-- **Easy Development**: Go services run on host for fast iteration and debugging
-- **Consistent Infrastructure**: Docker ensures reproducible Kafka/MySQL setup
-- **Best of Both Worlds**: Development speed + production-like infrastructure
 
 ## Features
 
@@ -75,26 +70,6 @@ The system uses a **hybrid architecture** for optimal development experience:
 ```
 
 ## Quick Start
-
-### Prerequisites
-- Go 1.21+
-- Docker and Docker Compose
-
-### Environment Configuration
-
-The system uses a hybrid approach where:
-- **Docker containers** run the infrastructure (Kafka, MySQL, Zookeeper)
-- **Go services** run on the host and connect to Docker services via localhost
-
-Copy the example environment file and configure it:
-```bash
-cp env.example .env
-```
-
-**Key Configuration Points:**
-- `MYSQL_HOST=localhost` - Go services connect to MySQL container via localhost
-- `KAFKA_BROKERS=localhost:9092` - Go services connect to Kafka container via localhost
-- `MYSQL_PASSWORD=Dtudelhi@1` - Must match the password in docker-compose.yml
 
 ### Development Setup
 
@@ -167,11 +142,6 @@ Alert rules define conditions that trigger alerts when met. Each rule includes:
 - **Time Window**: Time period to evaluate (in minutes)
 - **Severity**: Alert severity level (low, medium, high, critical)
 - **Enabled**: Whether the rule is active
-
-### Alert Lifecycle
-1. **Active**: Alert is triggered and requires attention
-2. **Acknowledged**: Alert has been acknowledged by an operator
-3. **Resolved**: Alert condition has been resolved
 
 ## Available Commands
 
